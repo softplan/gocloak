@@ -833,6 +833,19 @@ func (client *gocloak) GetClientOfflineSessions(token, realm, clientID string) (
 	return res, nil
 }
 
+// GetClientSessionsStats returns sessions associated with the client
+func (client *gocloak) GetClientSessionsStats(token, realm string) ([]*ClientSessionRepresentation, error) {
+	var res []*ClientSessionRepresentation
+	resp, err := client.getRequestWithBearerAuth(token).
+		SetResult(&res).
+		Get(client.getAdminRealmURL(realm, "client-session-stats"))
+
+	if err := checkForError(resp, err); err != nil {
+		return nil, err
+	}
+	return res, nil
+}
+
 // GetClientUserSessions returns user sessions associated with the client
 func (client *gocloak) GetClientUserSessions(token, realm, clientID string) ([]*UserSessionRepresentation, error) {
 	const errMessage = "could not get client user sessions"

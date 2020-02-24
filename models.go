@@ -728,6 +728,13 @@ func (t *RequestingPartyTokenOptions) FormData() map[string]string {
 	return res
 }
 
+// ClientSessionRepresentation represents a list of client's sessions
+type ClientSessionRepresentation struct {
+	ClientID       *string `json:"clientId,omitempty"`
+	ID             *string `json:"id,omitempty"`
+	ActiveSessions *string `json:"active,omitempty"`
+}
+
 // UserSessionRepresentation represents a list of user's sessions
 type UserSessionRepresentation struct {
 	Clients    map[string]string `json:"clients,omitempty"`

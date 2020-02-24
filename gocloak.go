@@ -127,6 +127,8 @@ type GoCloak interface {
 	GetClients(accessToken string, realm string, params GetClientsParams) ([]*Client, error)
 	// GetClientOfflineSessions returns offline sessions associated with the client
 	GetClientOfflineSessions(token, realm, clientID string) ([]*UserSessionRepresentation, error)
+	// GetClientSessionsStats returns sessions associated with the clients
+	GetClientSessionsStats(token, realm string) ([]*ClientSessionRepresentation, error)
 	// GetClientUserSessions returns user sessions associated with the client
 	GetClientUserSessions(token, realm, clientID string) ([]*UserSessionRepresentation, error)
 	// CreateClientProtocolMapper creates a protocol mapper in client scope
