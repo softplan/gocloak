@@ -4,6 +4,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"net/url"
+	"strconv"
 	"strings"
 	"sync"
 	"time"
@@ -835,12 +836,14 @@ func (client *gocloak) GetClientOfflineSessions(token, realm, clientID string) (
 
 // GetClientSessionsStats returns sessions associated with the client
 func (client *gocloak) GetClientSessionsStats(token, realm string) ([]*ClientSessionRepresentation, error) {
+	const errMessage = "could not get client sessions stats"
+
 	var res []*ClientSessionRepresentation
 	resp, err := client.getRequestWithBearerAuth(token).
 		SetResult(&res).
 		Get(client.getAdminRealmURL(realm, "client-session-stats"))
 
-	if err := checkForError(resp, err); err != nil {
+	if err := checkForError(resp, err, errMessage); err != nil {
 		return nil, err
 	}
 	return res, nil
@@ -859,6 +862,21 @@ func (client *gocloak) GetClientUserSessions(token, realm, clientID string) ([]*
 		return nil, err
 	}
 
+	return res, nil
+}
+
+// GetClientUserSessions returns user sessions associated with the client
+func (client *gocloak) GetClientUserSessionsMax(token, realm, clientID string, maxResultsSize int) ([]*UserSessionRepresentation, error) {
+	const errMessage = "could not get client user sessions"
+
+	var res []*UserSessionRepresentation
+	resp, err := client.getRequestWithBearerAuth(token).
+		SetResult(&res).
+		Get(client.getAdminRealmURL(realm, "clients", clientID, "user-sessions", "?max="+strconv.Itoa(maxResultsSize)))
+
+	if err := checkForError(resp, err, errMessage); err != nil {
+		return nil, err
+	}
 	return res, nil
 }
 

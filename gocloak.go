@@ -131,6 +131,8 @@ type GoCloak interface {
 	GetClientSessionsStats(token, realm string) ([]*ClientSessionRepresentation, error)
 	// GetClientUserSessions returns user sessions associated with the client
 	GetClientUserSessions(token, realm, clientID string) ([]*UserSessionRepresentation, error)
+	// GetClientUserSessionsMax returns user sessions associated with the client, set max results size
+	GetClientUserSessionsMax(token, realm, clientID string, maxResultsSize int) ([]*UserSessionRepresentation, error)
 	// CreateClientProtocolMapper creates a protocol mapper in client scope
 	CreateClientProtocolMapper(token, realm, clientID string, mapper ProtocolMapperRepresentation) (string, error)
 	// CreateClientProtocolMapper updates a protocol mapper in client scope
